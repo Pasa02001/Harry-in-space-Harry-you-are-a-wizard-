@@ -13,12 +13,26 @@ namespace Template
         SpriteBatch spriteBatch;
         Texture2D bg;
         Texture2D player;
+        Player player1;
+        public static int ScreenWidth
+        {
+            get;
+            private set;
+        }
+        public static int ScreenHeight
+        {
+            get;
+            private set;
+        }
         //KOmentar
         //KOmentar
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.IsFullScreen = true;
+            
+
         }
 
         /// <summary>
@@ -30,8 +44,13 @@ namespace Template
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
 
             base.Initialize();
+             
+            graphics.PreferredBackBufferWidth = ScreenWidth = GraphicsDevice.DisplayMode.Width;
+            graphics.PreferredBackBufferHeight = ScreenHeight = GraphicsDevice.DisplayMode.Height;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -43,6 +62,7 @@ namespace Template
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bg = Content.Load<Texture2D>("Stars");
             player = Content.Load<Texture2D>("Player");
+            player1 = new Player(player);
             // TODO: use this.Content to load your game content here 
         }
 
@@ -68,6 +88,7 @@ namespace Template
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+            player1.Update();
         }
 
         /// <summary>
@@ -78,8 +99,8 @@ namespace Template
         {
             GraphicsDevice.Clear(Color.DarkGray);
             spriteBatch.Begin();
-            spriteBatch.Draw(bg,new Rectangle (0,0,800,480),Color.White);
-            player.Draw(spriteBatch);
+            spriteBatch.Draw(bg,new Rectangle (0,0, ScreenWidth, ScreenHeight),Color.White);
+            player1.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
