@@ -14,6 +14,7 @@ namespace Template
         Texture2D bg;
         Texture2D player;
         Player player1;
+        Timer timer;
         public static int ScreenWidth
         {
             get;
@@ -51,7 +52,11 @@ namespace Template
             graphics.PreferredBackBufferWidth = ScreenWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = ScreenHeight = GraphicsDevice.DisplayMode.Height;
             graphics.ApplyChanges();
-        }
+
+            timer = new Timer(this, 90.0f);
+            timer.Font = Content.Load<SpriteFont>("font");
+            timer.Position = new Vector2(this.Window.ClientBounds.Width/2)
+        }//https://www.youtube.com/watch?v=-2FeSrYT1KE
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
