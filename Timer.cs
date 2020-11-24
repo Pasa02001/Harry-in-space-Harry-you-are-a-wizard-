@@ -22,9 +22,11 @@ namespace Template
             time = startTime;
             start = false;
             paus = false;
-            end = false; 
+            end = false;
+            Text = "";
 
         }
+
         #region Properties
         public SpriteFont Font
         {
@@ -76,8 +78,9 @@ namespace Template
                 }
             }
             Text = time.ToString();
-            base.Update(Timer);
+            base.Update(gameTime);
         }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Text, Position, Color.White);

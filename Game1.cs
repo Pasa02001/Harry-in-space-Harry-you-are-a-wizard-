@@ -31,7 +31,7 @@ namespace Template
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             
 
         }
@@ -54,8 +54,9 @@ namespace Template
             graphics.ApplyChanges();
 
             timer = new Timer(this, 90.0f);
-            timer.Font = Content.Load<SpriteFont>("font");
-            timer.Position = new Vector2(this.Window.ClientBounds.Width/2)
+            timer.Font = Content.Load<SpriteFont>("Font");
+            timer.Position = new Vector2(this.Window.ClientBounds.Width / 2 - timer.Font.MeasureString(timer.Text).X/2,0);
+            Components.Add(timer);
         }//https://www.youtube.com/watch?v=-2FeSrYT1KE
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace Template
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            
 
             base.Update(gameTime);
             player1.Update();
@@ -104,8 +105,11 @@ namespace Template
         {
             GraphicsDevice.Clear(Color.DarkGray);
             spriteBatch.Begin();
+
+            
             spriteBatch.Draw(bg,new Rectangle (0,0, ScreenWidth, ScreenHeight),Color.White);
             player1.Draw(spriteBatch);
+            timer.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
