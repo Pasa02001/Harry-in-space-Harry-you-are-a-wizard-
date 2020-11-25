@@ -1,29 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-
 namespace Template
 {
-    class Bullets
+    class Bullets : BaseClass
     {
-        Texture2D bullet;
-        Vector2 bPos;
-        Vector2 bSpeed;
-        Vector2 bOrigan;
-
-
-        bool isVisible;
-        public Bullets (Texture2D newTexture)
+        Vector2 bulletDirection; 
+        public Bullets(Vector2 bulletDirection) : base()
         {
-            bullet = newTexture;
-            isVisible = false; 
-
+            this.bulletDirection = bulletDirection;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Update()
         {
-            spriteBatch.Draw(bullet, bPos, null, Color.White, 0f, bOrigan, 1f, SpriteEffects.None, 0);
+            texturePos += bulletDirection * 5;
         }
-
     }
 }

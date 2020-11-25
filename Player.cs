@@ -5,41 +5,42 @@ using System;
 
 namespace Template
 {
-    class Player
+    class Player : BaseClass
     {
-        Texture2D player;
-        Vector2 playerPos = new Vector2(40,100);
         Vector2 mousePos;
-        public float angle; 
+        public float angle;
 
-        public Player(Texture2D player)
+        public Player(Texture2D texture, Vector2 texturePos) : base(texture, texturePos)
         {
-            this.player = player; 
 
         }
-        public void Update()
+        public override void Update()
         {
             KeyboardState kState = Keyboard.GetState();
             if (kState.IsKeyDown(Keys.W))
-                playerPos.Y -= 5;
+                texturePos.Y -= 5;
             if (kState.IsKeyDown(Keys.S))
-                playerPos.Y += 5;
+                texturePos.Y += 5;
             if (kState.IsKeyDown(Keys.D))
-                playerPos.X += 5;
+                texturePos.X += 5;
             if (kState.IsKeyDown(Keys.A))
-                playerPos.X -= 5;
+                texturePos.X -= 5;
 
             mousePos = Mouse.GetState().Position.ToVector2();
-            angle = (float)Math.Atan2(playerPos.Y - mousePos.Y, playerPos.X - mousePos.X) + (float)(Math.PI);
+            angle = (float)Math.Atan2(texturePos.Y - mousePos.Y, texturePos.X - mousePos.X) + (float)(Math.PI);
 
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             int width=(int)(Game1.ScreenHeight * .3f);
             int height = (int)(Game1.ScreenHeight * .3f);
-            spriteBatch.Draw(player, new Rectangle((int)playerPos.X, (int)playerPos.Y, width, height), null, Color.White, angle, new Vector2(player.Width/2, player.Height/2), SpriteEffects.None,0);
+            spriteBatch.Draw(texture, new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height), null, Color.White, angle, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None,0);
+        }
 
-
+        private void Shoot(Vector2 mousePos)
+        {
+            Vector2 dir = mousePos - texturePos;
+            dir.Normalize();
         }
     }
 }

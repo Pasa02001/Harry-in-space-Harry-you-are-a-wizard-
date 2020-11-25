@@ -17,10 +17,10 @@ namespace Template
         private bool paus;
         private bool end; 
 
-        public Timer(Game game, float startTime): base(game)
+        public Timer(Game game, float startTime) : base(game)
         {
             time = startTime;
-            start = false;
+            start = true;
             paus = false;
             end = false;
             Text = "";
@@ -78,7 +78,7 @@ namespace Template
                 }
             }
             Text = time.ToString();
-            base.Update(gameTime);
+            //base.Update(gameTime);
         }
         
         public void Draw(SpriteBatch spriteBatch)

@@ -12,8 +12,9 @@ namespace Template
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D bg;
-        Texture2D player;
-        Player player1;
+        Texture2D playertex;
+        Vector2 playerPos = new Vector2(40, 100);
+        Player player;
         Timer timer;
         public static int ScreenWidth
         {
@@ -67,8 +68,8 @@ namespace Template
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bg = Content.Load<Texture2D>("Stars");
-            player = Content.Load<Texture2D>("Player");
-            player1 = new Player(player);
+            playertex = Content.Load<Texture2D>("Player");
+            player = new Player(playertex, playerPos);
             // TODO: use this.Content to load your game content here 
         }
 
@@ -94,7 +95,8 @@ namespace Template
             
 
             base.Update(gameTime);
-            player1.Update();
+            timer.Update(gameTime);
+            player.Update();
         }
 
         /// <summary>
@@ -105,10 +107,8 @@ namespace Template
         {
             GraphicsDevice.Clear(Color.DarkGray);
             spriteBatch.Begin();
-
-            
             spriteBatch.Draw(bg,new Rectangle (0,0, ScreenWidth, ScreenHeight),Color.White);
-            player1.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             timer.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
