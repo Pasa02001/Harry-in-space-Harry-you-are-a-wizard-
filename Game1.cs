@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Template
 {
@@ -15,6 +16,7 @@ namespace Template
         Texture2D playertex;
         Vector2 playerPos = new Vector2(40, 100);
         Player player;
+        List<Bullet> bulletList = new List<Bullet>();
         Timer timer;
         public static int ScreenWidth
         {
@@ -69,7 +71,7 @@ namespace Template
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bg = Content.Load<Texture2D>("Stars");
             playertex = Content.Load<Texture2D>("Player");
-            player = new Player(playertex, playerPos);
+            player = new Player(playertex, playerPos, bulletList);
             // TODO: use this.Content to load your game content here 
         }
 
@@ -97,6 +99,11 @@ namespace Template
             base.Update(gameTime);
             timer.Update(gameTime);
             player.Update();
+
+            foreach (var item in bulletList)
+            {
+                item.Update();
+            }
         }
 
         /// <summary>
@@ -109,6 +116,10 @@ namespace Template
             spriteBatch.Begin();
             spriteBatch.Draw(bg,new Rectangle (0,0, ScreenWidth, ScreenHeight),Color.White);
             player.Draw(spriteBatch);
+            foreach (var item in bulletList)
+            {
+                item.Draw(spriteBatch);
+            }
             timer.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);

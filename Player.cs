@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Template
 {
@@ -9,26 +10,30 @@ namespace Template
     {
         Vector2 mousePos;
         public float angle;
-
-        public Player(Texture2D texture, Vector2 texturePos) : base(texture, texturePos)
+        List<Bullet> bulletList;
+        KeyboardState oldKState;
+        public Player(Texture2D texture, Vector2 texturePos, List<Bullet> bulletList) : base(texture, texturePos)
         {
-
+            this.bulletList = bulletList;
         }
         public override void Update()
         {
-            KeyboardState kState = Keyboard.GetState();
-            if (kState.IsKeyDown(Keys.W))
+            KeyboardState newKState = Keyboard.GetState();
+            if (newKState.IsKeyDown(Keys.W))
                 texturePos.Y -= 5;
-            if (kState.IsKeyDown(Keys.S))
+            if (newKState.IsKeyDown(Keys.S))
                 texturePos.Y += 5;
-            if (kState.IsKeyDown(Keys.D))
+            if (newKState.IsKeyDown(Keys.D))
                 texturePos.X += 5;
-            if (kState.IsKeyDown(Keys.A))
+            if (newKState.IsKeyDown(Keys.A))
                 texturePos.X -= 5;
+            if (newKState.IsKeyDown(Keys.Space)) //&& oldKState.IsKeyUp(Keys.Space))
+                Shoot();
+            
 
             mousePos = Mouse.GetState().Position.ToVector2();
             angle = (float)Math.Atan2(texturePos.Y - mousePos.Y, texturePos.X - mousePos.X) + (float)(Math.PI);
-
+            oldKState = newKState;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -37,10 +42,11 @@ namespace Template
             spriteBatch.Draw(texture, new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height), null, Color.White, angle, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None,0);
         }
 
-        private void Shoot(Vector2 mousePos)
+        private void Shoot()
         {
-            Vector2 dir = mousePos - texturePos;
+            Vector2 dir = Mouse.GetState().Position.ToVector2() - texturePos;
             dir.Normalize();
+            bulletList.Add(new Bullet(texture, texturePos, dir));
         }
     }
 }
